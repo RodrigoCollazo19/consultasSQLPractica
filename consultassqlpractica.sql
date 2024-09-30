@@ -27,6 +27,28 @@ FROM vpy
 INNER JOIN proveedor V ON vpy.NroV=V.NroV
 INNER JOIN proyecto Y ON vpy.NroY=Y.NroY
 INNER JOIN parte P ON vpy.NroP=P.NroP
-WHERE V.CIUDADV = P.CIUDADP AND P.CIUDADP=Y.CIUDADY
+WHERE V.CIUDADV = P.CIUDADP AND P.CIUDADP=Y.CIUDADY;
 
--- 7) 
+-- 7) Obtener todos los triples número de proveedor/número de parte/número de proyecto, tales que los proveedores, partes y proyectos indicados no estén todos coubicados.
+SELECT vpy.NroY, vpy.NroP, vpy.NroV
+FROM vpy 
+INNER JOIN proveedor V ON vpy.NroV=V.NroV
+INNER JOIN proyecto Y ON vpy.NroY=Y.NroY
+INNER JOIN parte P ON vpy.NroP=P.NroP
+WHERE V.CIUDADV <> P.CIUDADP OR P.CIUDADP<>Y.CIUDADY;
+
+-- 8) Obtener todos los triples número de proveedor/número de parte/número de proyecto, tales que ningún par de los proveedores, partes y proyectos indicados esté coubicado.
+SELECT vpy.NroY, vpy.NroP, vpy.NroV
+FROM vpy 
+INNER JOIN proveedor V ON vpy.NroV=V.NroV
+INNER JOIN proyecto Y ON vpy.NroY=Y.NroY
+INNER JOIN parte P ON vpy.NroP=P.NroP
+WHERE V.CIUDADV <> P.CIUDADP AND P.CIUDADP<>Y.CIUDADY AND V.CIUDADV <> Y.CIUDADY;
+
+-- 9) Obtener todos los detalles de las partes suministradas por un proveedor de Londres.
+SELECT vpy.NroP, PARTE, COLOR, PESO, CIUDADP
+FROM vpy INNER JOIN proveedor V ON vpy.NroV=V.NroV
+		 INNER JOIN parte P ON vpy.NroP=P.NroP
+WHERE CIUDADV='Londres'
+
+-- 10) Obtener los números de las partes suministradas por un proveedor de Londres para un proyecto en Londres.
