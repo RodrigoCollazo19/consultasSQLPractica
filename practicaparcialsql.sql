@@ -13,7 +13,7 @@ SELECT C.Nombre
 FROM Cliente C INNER JOIN Factura F ON F.CliCod=C.cc;
 
 -- 4) Encontrar el o los clientes que han comprado en todas las sucursales
-SELECT C.Nombre
+SELECT C.cc
 FROM Factura F INNER JOIN Sucursal S ON F.SucCod=S.cods
 			   INNER JOIN Cliente C ON F.CliCod=C.cc
 GROUP BY C.cc
