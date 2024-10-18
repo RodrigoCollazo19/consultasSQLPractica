@@ -23,7 +23,11 @@ HAVING COUNT(DISTINCT S.cods) = (SELECT COUNT(*) FROM Sucursal);
 SELECT *
 FROM Factura F INNER JOIN Sucursal S ON F.SucCod=S.cods
 			   INNER JOIN Cliente C ON F.CliCod=C.cc
+<<<<<<< HEAD
 WHERE S.nombre='Sucursal Centro' AND C.cc NOT IN (SELECT CliCod FROM Factura WHERE Succod <> 'X');
+=======
+WHERE S.nombre='Sucursal Centro' AND C.cc NOT IN (SELECT CliCod FROM Factura WHERE Succod <> 'X')
+>>>>>>> f42c755adbf99964ce1fc85ce1984a10f56f01c5
 
 -- DDL
 -- 6) Seleccionar el total de facturas del mes Julio 2023.
