@@ -36,6 +36,23 @@ FROM Factura
 WHERE Fecha BETWEEN '2023-07-01' AND '2023-07-31';
 
 -- 7) Seleccionar el producto más vendido por sucursal
+SELECT S.nombre AS Sucursal, P.nombre AS Producto, SUM(D.Cant_Unit) AS Total_Vendido
+FROM Detalle D
+JOIN Factura F ON D.FacNum = F.Num AND D.FacSucCod = F.SucCod
+JOIN Producto P ON D.ProCod = P.codp
+JOIN Sucursal S ON F.SucCod = S.cods
+GROUP BY S.cods, S.nombre, P.codp, P.nombre
+HAVING SUM(D.Cant_Unit) = (
+    SELECT MAX(Total_Ventas)
+    FROM (
+        SELECT SUM(D2.Cant_Unit) AS Total_Ventas
+        FROM Detalle D2
+        JOIN Factura F2 ON D2.FacNum = F2.Num AND D2.FacSucCod = F2.SucCod
+        WHERE F2.SucCod = F.SucCod
+        GROUP BY D2.ProCod
+    ) AS SubQuery
+)
+ORDER BY S.nombre;
 
 -- 8) Escribir la sentencia para crear las tablas Ciudad y Cliente
 CREATE TABLE City (codC int PRIMARY KEY AUTO_INCREMENT, nombreCiudad VARCHAR(100) NOT NULL);
