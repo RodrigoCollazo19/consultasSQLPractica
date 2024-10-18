@@ -13,7 +13,7 @@ SELECT C.Nombre
 FROM Cliente C INNER JOIN Factura F ON F.CliCod=C.cc;
 
 -- 4) Encontrar el o los clientes que han comprado en todas las sucursales
-SELECT C.Nombre
+SELECT C.cc
 FROM Factura F INNER JOIN Sucursal S ON F.SucCod=S.cods
 			   INNER JOIN Cliente C ON F.CliCod=C.cc
 GROUP BY C.cc
@@ -23,7 +23,7 @@ HAVING COUNT(DISTINCT S.cods) = (SELECT COUNT(*) FROM Sucursal);
 SELECT *
 FROM Factura F INNER JOIN Sucursal S ON F.SucCod=S.cods
 			   INNER JOIN Cliente C ON F.CliCod=C.cc
-WHERE S.nombre='Sucursal Centro';
+WHERE S.nombre='Sucursal Centro' AND C.cc NOT IN (SELECT CliCod FROM Factura WHERE Succod <> 'X');
 
 -- DDL
 -- 6) Seleccionar el total de facturas del mes Julio 2023.
@@ -43,3 +43,17 @@ SET precio=precio*1.50;
 -- 10) Eliminar de la tabla producto, aquellos productos cuya categoría sea "Varios".
 DELETE FROM Producto
 WHERE categoria='Varios';
+
+-- 11) Seleccionar los datos de los clientes, junto con el nombre de la ciudad a la cual pertenece.
+SELECT DISTINCT C.cc, C.Nombre, CD.nombre
+FROM Cliente C INNER JOIN Ciudad CD ON C.CiuCod=CD.codc;
+
+-- 12) Seleccionar los productos que no han sido registrados en ninguna factura
+SELECT *
+FROM Producto
+WHERE codp NOT IN (SELECT ProCod
+				   FROM Detalle);
+                   
+-- 13) Seleccionar todas las ciudades junto con sus sucursales (si las tiene)
+SELECT C.codc Codigo_Ciudad, C.nombre Ciudad, S.cods Codigo_Sucursal, S.nombre Sucursal
+FROM Ciudad C LEFT JOIN Sucursal S ON S.CiuCod=C.codc;
